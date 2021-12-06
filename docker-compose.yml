@@ -1,0 +1,22 @@
+version: "3.7"
+
+# For development and production-specific configuration,
+# check out docker-compose.override.yml and docker-compose.prod.yml
+# respectively.
+services:
+  api:
+    restart: on-failure
+    networks:
+      - api
+
+  nginx:
+    image: nginx:mainline-alpine
+    restart: on-failure
+    depends_on:
+      - api
+    networks:
+      - api
+
+networks:
+  api:
+    driver: bridge
