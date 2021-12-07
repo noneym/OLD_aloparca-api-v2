@@ -44,6 +44,9 @@ $routes->get('/Kw', 'Cars::Kw');
 $routes->get('/PartBrands', 'Catalog::PartBrands');
 $routes->get('/AccesoriesCategories', 'Catalog::AccesoriesCategories');
 $routes->get('/MineralOilCategories', 'Catalog::MineralOilCategories');
+$routes->get('/CampianList', 'Catalog::CampianList');
+$routes->get('/CampianList', 'Catalog::CampianList');
+$routes->get('/PartBrandCategories', 'Catalog::PartBrandCategories');
 
 /*
  * --------------------------------------------------------------------

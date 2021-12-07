@@ -99,5 +99,47 @@ class CatalogModel extends Model
                 
         return $this->db->query($q)->getResult();
     }
+
+    public function getCampainCategories()
+    {
+        $q = "
+        select
+        kampanya as campain_type,
+        arac_marka as campain_name,
+        stokfiyati
+        from stokyonetimi
+        where
+        kampanyali = 1
+        and ifnull(arac_marka,'YOK') != 'YOK'
+        and ifnull(kampanya,'YOK') != 'YOK'
+        and stokfiyati > 0
+        group by kampanya, arac_marka
+        order by arac_marka
+        ";
+                
+        return $this->db->query($q)->getResult();
+    }
+
+    public function getPartBrandCategories($brandName)
+    {
+        $q = "
+        select
+        eg.GA_STANDARD as category_name
+        from EXPORTADDITION_GAINFO eg 
+        join LINKEDTABLEPARTS l on l.LA_GA_ID = eg.TTC_GA_ID
+        join stokyonetimi s on s.id = l.LA_ART_ID and s.stokmarka = '{$brandName}' 
+        where
+        ifnull(stokfiyati,0) > 0
+        and ifnull(s.status,0) = 1
+        and ifnull(s.stokdurumu,0) > 0
+        and ifnull(l.disable,0) = 0 
+        and ifnull(eg.durum,0) = 1
+        group by eg.GA_STANDARD
+        having count(eg.GA_STANDARD) > 0
+        order by eg.GA_STANDARD
+        ";
+                
+        return $this->db->query($q)->getResult();
+    }
     
 }

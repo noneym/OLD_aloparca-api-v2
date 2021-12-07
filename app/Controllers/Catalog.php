@@ -190,5 +190,88 @@ class Catalog extends ResourceController
             return $this->respond($response);
         }
     }
+
+    public function CampianList()
+    {
+        helper('aloparca');
+        $cacheKey = 'campain_categories:';
+        $arrResult = cache($cacheKey);
+        if(empty($arrResult)){
+            $model = new CatalogModel();
+            $arrResult = array();
+            $arrDbResult = $model->getCampainCategories();
+            if($arrDbResult){
+                foreach ($arrDbResult as $key => $item) {
+                    if(strlen($item->campain_name) > 0 && strlen($item->campain_type) > 0){
+                        $campainName = $item->campain_name.' '.$item->campain_type. ' Kampanyası';
+                        $arrResult[] = array(
+                            'name'      => (string) ucwords(strtolower($campainName)),
+                            'slug'      => (string) aloparca::validUrl($item->campain_name.'_'.$item->campain_type)
+                        );
+                    }
+                }
+            }
+            //cache()->save($arrResult, $cacheKey,604800);
+        }
+
+
+        if ($arrResult) {
+            $response = [
+                'status'    => 201,
+                'error'     => null,
+                'result'      => $arrResult
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'No result found'
+                ]
+            ];
+            return $this->respond($response);
+        }
+    }
+
+    public function PartBrandCategories($brandName)
+    {
+        helper('aloparca');
+        $cacheKey = 'partbrand_categories:';
+        $arrResult = cache($cacheKey);
+        if(empty($arrResult)){
+            $model = new CatalogModel();
+            $arrResult = array();
+            $arrDbResult = $model->getPartBrandCategories($brandName);
+            if($arrDbResult){
+                foreach ($arrDbResult as $key => $item) {
+                    $arrResult[] = array(
+                        'name'      => (string) ucwords(strtolower($item->category_name)),
+                        'slug'      => (string) aloparca::validUrl($brandName).aloparca::validUrl($item->category_name)
+                    );
+                }
+            }
+            //cache()->save($arrResult, $cacheKey,604800);
+        }
+
+
+        if ($arrResult) {
+            $response = [
+                'status'    => 201,
+                'error'     => null,
+                'result'      => $arrResult
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'No result found'
+                ]
+            ];
+            return $this->respond($response);
+        }
+    }
     
 }
