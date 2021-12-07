@@ -51,6 +51,9 @@ $routes->get('/PartBrandCategories', 'Catalog::PartBrandCategories');
 
 // Products
 $routes->get('/SparePartList', 'Products::SparePartList');
+$routes->get('/AccesoriesList', 'Products::AccesoriesList');
+$routes->get('/MineralOilList', 'Products::MineralOilList');
+$routes->get('/Detail', 'Products::Detail');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
