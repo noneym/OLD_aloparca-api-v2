@@ -70,11 +70,11 @@ class Catalog extends ResourceController
                     if($prodControl){
                         $catUrl = aloparca::validUrl($item->mainCatName);
                         $subcatUrl = aloparca::validUrl($item->subCatName);
-                        $arrRet[$catUrl]['category_info'] = array(
+                        $arrResult[$catUrl]['category_info'] = array(
                             'name'      => (string) $item->mainCatName,
                             'slug'      => (string) $catUrl
                         );
-                        $arrRet[$catUrl]['sub_categories'][] = array(
+                        $arrResult[$catUrl]['sub_categories'][] = array(
                             'name'      => (string) $item->subCatName,
                             'slug'      => (string) $subcatUrl
                         );
@@ -118,6 +118,53 @@ class Catalog extends ResourceController
                     $arrResult[] = array(
                         'name'      => (string) $item->name,
                         'slug'      => (string) aloparca::validUrl($item->name)
+                    );
+                }
+            }
+            //cache()->save($arrResult, $cacheKey,604800);
+        }
+
+
+        if ($arrResult) {
+            $response = [
+                'status'    => 201,
+                'error'     => null,
+                'result'      => $arrResult
+            ];
+            return $this->respond($response);
+        } else {
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'No result found'
+                ]
+            ];
+            return $this->respond($response);
+        }
+    }
+
+    public function MineralOilCategories()
+    {
+        helper('aloparca');
+        $cacheKey = 'mineral_oils_categories:';
+        $arrResult = cache($cacheKey);
+        if(empty($arrResult)){
+            $model = new CatalogModel();
+            $arrResult = array();
+            $arrDbResult = $model->getOilCategories();
+            if($arrDbResult){
+                foreach ($arrDbResult as $key => $item) {
+                    $catUrl = aloparca::validUrl($item->mainCatName);
+                    $subcatUrl = aloparca::validUrl($item->subCatName);
+                    $arrResult[$item->mainCatID]['category_info'] = array(
+                        'id'        => (int) $item->mainCatID,
+                        'name'      => (string) $item->mainCatName,
+                        'slug'      => (string) $catUrl
+                    );
+                    $arrResult[$item->mainCatID]['sub_categories'][] = array(
+                        'name'      => (string) $item->subCatName,
+                        'slug'      => (string) $subcatUrl
                     );
                 }
             }

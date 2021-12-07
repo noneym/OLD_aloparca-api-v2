@@ -43,6 +43,7 @@ $routes->get('/Kw', 'Cars::Kw');
 // Catalog
 $routes->get('/PartBrands', 'Catalog::PartBrands');
 $routes->get('/AccesoriesCategories', 'Catalog::AccesoriesCategories');
+$routes->get('/MineralOilCategories', 'Catalog::MineralOilCategories');
 
 /*
  * --------------------------------------------------------------------

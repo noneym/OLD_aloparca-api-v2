@@ -82,5 +82,22 @@ class CatalogModel extends Model
                 
         return $this->db->query($q)->getResult();
     }
+
+    public function getOilCategories()
+    {
+        $q = "
+        select
+        k.id as mainCatID,
+        k.isim as mainCatName,
+        u.altkate as subCatName
+        from ustkategori k
+        join kategori_urun u on u.ustkate = k.id
+        where
+        k.status = 1
+        group by u.altkate
+        ";
+                
+        return $this->db->query($q)->getResult();
+    }
     
 }
