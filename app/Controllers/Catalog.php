@@ -5,6 +5,7 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CatalogModel;
 
+use function PHPUnit\Framework\isNull;
 
 class Catalog extends ResourceController
 {
@@ -234,8 +235,18 @@ class Catalog extends ResourceController
         }
     }
 
-    public function PartBrandCategories($brandName)
+    public function PartBrandCategories($brandName = null)
     {
+        if(isNull($brandName)){
+            $response = [
+                'status'   => 201,
+                'error'    => null,
+                'messages' => [
+                    'success' => 'Kategori bilgisi gerekiyor'
+                ]
+            ];
+            return $this->respond($response);
+        }
         helper('aloparca');
         $cacheKey = 'partbrand_categories:';
         $arrResult = cache($cacheKey);

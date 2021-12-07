@@ -48,6 +48,9 @@ $routes->get('/CampianList', 'Catalog::CampianList');
 $routes->get('/CampianList', 'Catalog::CampianList');
 $routes->get('/PartBrandCategories', 'Catalog::PartBrandCategories');
 
+
+// Products
+$routes->get('/SparePartList', 'Products::SparePartList');
 /*
  * --------------------------------------------------------------------
  * Additional Routing
