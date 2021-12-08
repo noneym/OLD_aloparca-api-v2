@@ -3,10 +3,12 @@ version: "3.7"
 services:
   api:
     build:
-      context: ./
+      context: ./api
       dockerfile: Dockerfile.dev
     volumes:
-      - ./:/app
+      - ./api/app:/app/app
+      - ./api/public:/app/public
+      - ./api/writable:/app/writable
     environment:
       XDEBUG_MODE: "${XDEBUG_MODE:-develop,debug}"
     extra_hosts:
@@ -15,6 +17,6 @@ services:
   nginx:
     volumes:
       - ./nginx/dev:/etc/nginx/conf.d
-      - ./:/app
+      - ./api/public:/app/public
     ports:
       - 8000:80

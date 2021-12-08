@@ -10,13 +10,13 @@ RUN composer install --ignore-platform-reqs
 FROM php:8-fpm
 WORKDIR /app
 
-COPY --from=composer /app/vendor ./
+COPY --from=composer /app/vendor ./vendor
 
 # Install library requirements
 RUN apt update && apt install -y libcurl4-gnutls-dev libxml2-dev
 
 # Install required native extensions
-RUN docker-php-ext-install -j$(nproc) curl dom fileinfo
+RUN docker-php-ext-install -j$(nproc) curl dom fileinfo intl
 
 # Install XDebug for application profiling
 RUN yes | pecl install xdebug
@@ -24,4 +24,7 @@ COPY docker/90-xdebug.ini "$PHP_INI_DIR/conf.d"
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-COPY app/ public/ writable/ ./
+COPY writable ./writable
+COPY public ./public
+COPY app ./app
+COPY .env ./
