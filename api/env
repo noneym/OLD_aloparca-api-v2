@@ -40,7 +40,7 @@ database.default.hostname = mariadb
 database.default.database = aloparca
 database.default.username = aloparca
 database.default.password = aloparca
-database.default.DBDriver = pdo/mysql
+database.default.DBDriver = MySQLi
 database.default.DBPrefix =
 
 # database.tests.hostname = localhost
