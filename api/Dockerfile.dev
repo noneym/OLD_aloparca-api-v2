@@ -16,7 +16,7 @@ COPY --from=composer /app/vendor ./vendor
 RUN apt update && apt install -y libcurl4-gnutls-dev libxml2-dev
 
 # Install required native extensions
-RUN docker-php-ext-install -j$(nproc) curl dom fileinfo intl
+RUN docker-php-ext-install -j$(nproc) curl dom fileinfo intl mysqli
 
 # Install XDebug for application profiling
 RUN yes | pecl install xdebug
