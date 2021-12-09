@@ -7,7 +7,7 @@ COPY composer.json composer.lock ./
 # does not come with some of the native extensions that our application requires.
 RUN composer install --ignore-platform-reqs
 
-FROM php:8.0-fpm
+FROM php:8.0-fpm AS api
 WORKDIR /app
 
 COPY --from=composer /app/vendor ./vendor
@@ -37,4 +37,13 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY writable ./writable
 COPY public ./public
 COPY app ./app
+
+FROM api AS api-development
+
+# Copy the local development config
 COPY .env ./
+
+FROM api AS api-production
+
+# Link in the Docker secret
+RUN ln -s /run/secrets/env ./.env

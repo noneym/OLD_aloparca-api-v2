@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: api-production
+    deploy:
+      replicas: 4
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - "node.labels.component == api"
+
+  nginx:
+    volumes:
+      - ./nginx/dev:/etc/nginx/conf.d
+      - ./api/public:/app/public
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - "node.labels.component == api"
+
+  redis:
+    volumes:
+      - redis-data:/data
+    deploy:
+      restart_policy:
+        condition: on-failure
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - "node.labels.component == api"
+
+volumes:
+  redis-data:
