@@ -50,7 +50,6 @@ deploy_api:
 build_nginx:
   stage: build
   script:
-    - cd api
     - docker build -t aloparca/api-nginx:$IMAGE_VERSION -f nginx/Dockerfile.prod .
   needs: ["lint"]
 
