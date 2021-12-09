@@ -67,7 +67,7 @@ class Toolbar extends BaseConfig
      *
      * @var string
      */
-    public $viewsPath = SYSTEMPATH . 'Debug/Toolbar/Views/';
+    public $viewsPath = SYSTEMPATH . "Debug/Toolbar/Views/";
 
     /**
      * --------------------------------------------------------------------------

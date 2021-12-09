@@ -22,7 +22,7 @@ class Publisher extends BasePublisher
      * @var array<string,string>
      */
     public $restrictions = [
-        ROOTPATH => '*',
-        FCPATH   => '#\.(?css|js|map|htm?|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg)$#i',
+        ROOTPATH => "*",
+        FCPATH => '#\.(?css|js|map|htm?|xml|json|webmanifest|tff|eot|woff?|gif|jpe?g|tiff?|png|webp|bmp|ico|svg)$#i',
     ];
 }

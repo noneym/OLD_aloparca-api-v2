@@ -13,44 +13,46 @@ class Catalog extends ResourceController
 
     public function PartBrands($limit = 0, $featured = 0)
     {
-        helper('aloparca');
-        $cacheKey = 'part_brands:'.$limit.':'.$featured;
+        helper("aloparca");
+        $cacheKey = "part_brands:" . $limit . ":" . $featured;
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getPartBrands($limit, $featured);
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    if(strlen($item->name) > 2){
-                        $arrResult[] = array(
-                            'name'          => $item->name, 
-                            'slug'          => aloparca::validUrl($item->name, '-'),
-                            'featured'      => (int) $item->futured,
-                            'product_count' => (int)$item->product_count,
-                            'logo'          => ($item->bra_id ==  0 ? null : '/Brand_logos/'.$item->bra_id.'.jpg')
-                        );
+                    if (strlen($item->name) > 2) {
+                        $arrResult[] = [
+                            "name" => $item->name,
+                            "slug" => aloparca::validUrl($item->name, "-"),
+                            "featured" => (int) $item->futured,
+                            "product_count" => (int) $item->product_count,
+                            "logo" =>
+                                $item->bra_id == 0
+                                    ? null
+                                    : "/Brand_logos/" . $item->bra_id . ".jpg",
+                        ];
                     }
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
@@ -58,48 +60,47 @@ class Catalog extends ResourceController
 
     public function PartCategories()
     {
-        helper('aloparca');
-        $cacheKey = 'part_categories:';
+        helper("aloparca");
+        $cacheKey = "part_categories:";
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getPartCategories();
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    $prodControl = $model->prodStockControlForCategory($item->partLinkID);  
-                    if($prodControl){
+                    $prodControl = $model->prodStockControlForCategory($item->partLinkID);
+                    if ($prodControl) {
                         $catUrl = aloparca::validUrl($item->mainCatName);
                         $subcatUrl = aloparca::validUrl($item->subCatName);
-                        $arrResult[$catUrl]['category_info'] = array(
-                            'name'      => (string) $item->mainCatName,
-                            'slug'      => (string) $catUrl
-                        );
-                        $arrResult[$catUrl]['sub_categories'][] = array(
-                            'name'      => (string) $item->subCatName,
-                            'slug'      => (string) $subcatUrl
-                        );
+                        $arrResult[$catUrl]["category_info"] = [
+                            "name" => (string) $item->mainCatName,
+                            "slug" => (string) $catUrl,
+                        ];
+                        $arrResult[$catUrl]["sub_categories"][] = [
+                            "name" => (string) $item->subCatName,
+                            "slug" => (string) $subcatUrl,
+                        ];
                     }
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
@@ -107,39 +108,38 @@ class Catalog extends ResourceController
 
     public function AccesoriesCategories()
     {
-        helper('aloparca');
-        $cacheKey = 'acc_categories:';
+        helper("aloparca");
+        $cacheKey = "acc_categories:";
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getAccCategories();
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    $arrResult[] = array(
-                        'name'      => (string) $item->name,
-                        'slug'      => (string) aloparca::validUrl($item->name)
-                    );
+                    $arrResult[] = [
+                        "name" => (string) $item->name,
+                        "slug" => (string) aloparca::validUrl($item->name),
+                    ];
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
@@ -147,46 +147,45 @@ class Catalog extends ResourceController
 
     public function MineralOilCategories()
     {
-        helper('aloparca');
-        $cacheKey = 'mineral_oils_categories:';
+        helper("aloparca");
+        $cacheKey = "mineral_oils_categories:";
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getOilCategories();
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
                     $catUrl = aloparca::validUrl($item->mainCatName);
                     $subcatUrl = aloparca::validUrl($item->subCatName);
-                    $arrResult[$item->mainCatID]['category_info'] = array(
-                        'id'        => (int) $item->mainCatID,
-                        'name'      => (string) $item->mainCatName,
-                        'slug'      => (string) $catUrl
-                    );
-                    $arrResult[$item->mainCatID]['sub_categories'][] = array(
-                        'name'      => (string) $item->subCatName,
-                        'slug'      => (string) $subcatUrl
-                    );
+                    $arrResult[$item->mainCatID]["category_info"] = [
+                        "id" => (int) $item->mainCatID,
+                        "name" => (string) $item->mainCatName,
+                        "slug" => (string) $catUrl,
+                    ];
+                    $arrResult[$item->mainCatID]["sub_categories"][] = [
+                        "name" => (string) $item->subCatName,
+                        "slug" => (string) $subcatUrl,
+                    ];
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
@@ -194,42 +193,44 @@ class Catalog extends ResourceController
 
     public function CampianList()
     {
-        helper('aloparca');
-        $cacheKey = 'campain_categories:';
+        helper("aloparca");
+        $cacheKey = "campain_categories:";
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getCampainCategories();
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    if(strlen($item->campain_name) > 0 && strlen($item->campain_type) > 0){
-                        $campainName = $item->campain_name.' '.$item->campain_type. ' Kampanyası';
-                        $arrResult[] = array(
-                            'name'      => (string) ucwords(strtolower($campainName)),
-                            'slug'      => (string) aloparca::validUrl($item->campain_name.'_'.$item->campain_type)
-                        );
+                    if (strlen($item->campain_name) > 0 && strlen($item->campain_type) > 0) {
+                        $campainName =
+                            $item->campain_name . " " . $item->campain_type . " Kampanyası";
+                        $arrResult[] = [
+                            "name" => (string) ucwords(strtolower($campainName)),
+                            "slug" => (string) aloparca::validUrl(
+                                $item->campain_name . "_" . $item->campain_type
+                            ),
+                        ];
                     }
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
@@ -237,52 +238,52 @@ class Catalog extends ResourceController
 
     public function PartBrandCategories($brandName = null)
     {
-        if(isNull($brandName)){
+        if (isNull($brandName)) {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'Kategori bilgisi gerekiyor'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "Kategori bilgisi gerekiyor",
+                ],
             ];
             return $this->respond($response);
         }
-        helper('aloparca');
-        $cacheKey = 'partbrand_categories:';
+        helper("aloparca");
+        $cacheKey = "partbrand_categories:";
         $arrResult = cache($cacheKey);
-        if(empty($arrResult)){
+        if (empty($arrResult)) {
             $model = new CatalogModel();
-            $arrResult = array();
+            $arrResult = [];
             $arrDbResult = $model->getPartBrandCategories($brandName);
-            if($arrDbResult){
+            if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    $arrResult[] = array(
-                        'name'      => (string) ucwords(strtolower($item->category_name)),
-                        'slug'      => (string) aloparca::validUrl($brandName).aloparca::validUrl($item->category_name)
-                    );
+                    $arrResult[] = [
+                        "name" => (string) ucwords(strtolower($item->category_name)),
+                        "slug" =>
+                            (string) aloparca::validUrl($brandName) .
+                            aloparca::validUrl($item->category_name),
+                    ];
                 }
             }
             //cache()->save($arrResult, $cacheKey,604800);
         }
 
-
         if ($arrResult) {
             $response = [
-                'status'    => 201,
-                'error'     => null,
-                'result'      => $arrResult
+                "status" => 201,
+                "error" => null,
+                "result" => $arrResult,
             ];
             return $this->respond($response);
         } else {
             $response = [
-                'status'   => 201,
-                'error'    => null,
-                'messages' => [
-                    'success' => 'No result found'
-                ]
+                "status" => 201,
+                "error" => null,
+                "messages" => [
+                    "success" => "No result found",
+                ],
             ];
             return $this->respond($response);
         }
     }
-    
 }

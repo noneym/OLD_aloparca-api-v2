@@ -43,11 +43,5 @@ class Modules extends BaseModules
      *
      * @var string[]
      */
-    public $aliases = [
-        'events',
-        'filters',
-        'registrars',
-        'routes',
-        'services',
-    ];
+    public $aliases = ["events", "filters", "registrars", "routes", "services"];
 }

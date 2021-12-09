@@ -35,13 +35,16 @@ class BaseController extends Controller
      *
      * @var array
      */
-    protected $helpers = ['aloparca'];
+    protected $helpers = ["aloparca"];
 
     /**
      * Constructor.
      */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
+    public function initController(
+        RequestInterface $request,
+        ResponseInterface $response,
+        LoggerInterface $logger
+    ) {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
 

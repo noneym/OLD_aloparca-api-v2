@@ -23,7 +23,7 @@ class Encryption extends BaseConfig
      *
      * @var string
      */
-    public $key = '';
+    public $key = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -38,7 +38,7 @@ class Encryption extends BaseConfig
      *
      * @var string
      */
-    public $driver = 'OpenSSL';
+    public $driver = "OpenSSL";
 
     /**
      * --------------------------------------------------------------------------
@@ -63,5 +63,5 @@ class Encryption extends BaseConfig
      *
      * @var string
      */
-    public $digest = 'SHA512';
+    public $digest = "SHA512";
 }

@@ -60,21 +60,21 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $scriptSrc = 'self';
+    public $scriptSrc = "self";
 
     /**
      * Lists allowed stylesheets' URLs.
      *
      * @var string|string[]
      */
-    public $styleSrc = 'self';
+    public $styleSrc = "self";
 
     /**
      * Defines the origins from which images can be loaded.
      *
      * @var string|string[]
      */
-    public $imageSrc = 'self';
+    public $imageSrc = "self";
 
     /**
      * Restricts the URLs that can appear in a page's `<base>` element.
@@ -90,7 +90,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $childSrc = 'self';
+    public $childSrc = "self";
 
     /**
      * Limits the origins that you can connect to (via XHR,
@@ -98,7 +98,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $connectSrc = 'self';
+    public $connectSrc = "self";
 
     /**
      * Specifies the origins that can serve web fonts.
@@ -112,7 +112,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $formAction = 'self';
+    public $formAction = "self";
 
     /**
      * Specifies the sources that can embed the current page.
@@ -144,7 +144,7 @@ class ContentSecurityPolicy extends BaseConfig
      *
      * @var string|string[]
      */
-    public $objectSrc = 'self';
+    public $objectSrc = "self";
 
     /**
      * @var string|string[]|null

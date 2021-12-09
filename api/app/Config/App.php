@@ -23,7 +23,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $baseURL = 'http://localhost:8080/';
+    public $baseURL = "http://localhost:8080/";
 
     /**
      * --------------------------------------------------------------------------
@@ -36,7 +36,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $indexPage = 'index.php';
+    public $indexPage = "index.php";
 
     /**
      * --------------------------------------------------------------------------
@@ -55,7 +55,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $uriProtocol = 'REQUEST_URI';
+    public $uriProtocol = "REQUEST_URI";
 
     /**
      * --------------------------------------------------------------------------
@@ -69,7 +69,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $defaultLocale = 'en';
+    public $defaultLocale = "en";
 
     /**
      * --------------------------------------------------------------------------
@@ -96,7 +96,7 @@ class App extends BaseConfig
      *
      * @var string[]
      */
-    public $supportedLocales = ['en'];
+    public $supportedLocales = ["en"];
 
     /**
      * --------------------------------------------------------------------------
@@ -108,7 +108,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $appTimezone = 'Europe/Istanbul';
+    public $appTimezone = "Europe/Istanbul";
 
     /**
      * --------------------------------------------------------------------------
@@ -122,7 +122,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $charset = 'UTF-8';
+    public $charset = "UTF-8";
 
     /**
      * --------------------------------------------------------------------------
@@ -151,7 +151,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionDriver = 'CodeIgniter\Session\Handlers\FileHandler';
+    public $sessionDriver = "CodeIgniter\Session\Handlers\FileHandler";
 
     /**
      * --------------------------------------------------------------------------
@@ -162,7 +162,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionCookieName = 'ci_session';
+    public $sessionCookieName = "ci_session";
 
     /**
      * --------------------------------------------------------------------------
@@ -193,7 +193,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $sessionSavePath = WRITEPATH . 'session';
+    public $sessionSavePath = WRITEPATH . "session";
 
     /**
      * --------------------------------------------------------------------------
@@ -244,7 +244,7 @@ class App extends BaseConfig
      *
      * @deprecated use Config\Cookie::$prefix property instead.
      */
-    public $cookiePrefix = '';
+    public $cookiePrefix = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -257,7 +257,7 @@ class App extends BaseConfig
      *
      * @deprecated use Config\Cookie::$domain property instead.
      */
-    public $cookieDomain = '';
+    public $cookieDomain = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -270,7 +270,7 @@ class App extends BaseConfig
      *
      * @deprecated use Config\Cookie::$path property instead.
      */
-    public $cookiePath = '/';
+    public $cookiePath = "/";
 
     /**
      * --------------------------------------------------------------------------
@@ -322,7 +322,7 @@ class App extends BaseConfig
      *
      * @deprecated use Config\Cookie::$samesite property instead.
      */
-    public $cookieSameSite = 'Lax';
+    public $cookieSameSite = "Lax";
 
     /**
      * --------------------------------------------------------------------------
@@ -342,7 +342,7 @@ class App extends BaseConfig
      *
      * @var string|string[]
      */
-    public $proxyIPs = '';
+    public $proxyIPs = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -355,7 +355,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $CSRFTokenName = 'csrf_test_name';
+    public $CSRFTokenName = "csrf_test_name";
 
     /**
      * --------------------------------------------------------------------------
@@ -368,7 +368,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $CSRFHeaderName = 'X-CSRF-TOKEN';
+    public $CSRFHeaderName = "X-CSRF-TOKEN";
 
     /**
      * --------------------------------------------------------------------------
@@ -381,7 +381,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $CSRFCookieName = 'csrf_cookie_name';
+    public $CSRFCookieName = "csrf_cookie_name";
 
     /**
      * --------------------------------------------------------------------------
@@ -440,7 +440,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $CSRFSameSite = 'Lax';
+    public $CSRFSameSite = "Lax";
 
     /**
      * --------------------------------------------------------------------------

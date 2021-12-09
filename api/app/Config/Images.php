@@ -13,7 +13,7 @@ class Images extends BaseConfig
      *
      * @var string
      */
-    public $defaultHandler = 'gd';
+    public $defaultHandler = "gd";
 
     /**
      * The path to the image library.
@@ -21,7 +21,7 @@ class Images extends BaseConfig
      *
      * @var string
      */
-    public $libraryPath = '/usr/local/bin/convert';
+    public $libraryPath = "/usr/local/bin/convert";
 
     /**
      * The available handler classes.
@@ -29,7 +29,7 @@ class Images extends BaseConfig
      * @var array<string, string>
      */
     public $handlers = [
-        'gd'      => GDHandler::class,
-        'imagick' => ImageMagickHandler::class,
+        "gd" => GDHandler::class,
+        "imagick" => ImageMagickHandler::class,
     ];
 }

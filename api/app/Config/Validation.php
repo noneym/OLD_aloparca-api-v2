@@ -19,12 +19,7 @@ class Validation
      *
      * @var string[]
      */
-    public $ruleSets = [
-        Rules::class,
-        FormatRules::class,
-        FileRules::class,
-        CreditCardRules::class,
-    ];
+    public $ruleSets = [Rules::class, FormatRules::class, FileRules::class, CreditCardRules::class];
 
     /**
      * Specifies the views that are used to display the
@@ -33,8 +28,8 @@ class Validation
      * @var array<string, string>
      */
     public $templates = [
-        'list'   => 'CodeIgniter\Validation\Views\list',
-        'single' => 'CodeIgniter\Validation\Views\single',
+        "list" => "CodeIgniter\Validation\Views\list",
+        "single" => "CodeIgniter\Validation\Views\single",
     ];
 
     //--------------------------------------------------------------------

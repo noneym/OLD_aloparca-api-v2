@@ -33,7 +33,7 @@ class Migrations extends BaseConfig
      *
      * @var string
      */
-    public $table = 'migrations';
+    public $table = "migrations";
 
     /**
      * --------------------------------------------------------------------------
@@ -51,5 +51,5 @@ class Migrations extends BaseConfig
      *
      * @var string
      */
-    public $timestampFormat = 'Y-m-d-His_';
+    public $timestampFormat = "Y-m-d-His_";
 }

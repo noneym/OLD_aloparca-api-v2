@@ -1,7 +1,7 @@
 <?php namespace App\Models;
-  
+
 use CodeIgniter\Model;
- 
+
 class CatalogModel extends Model
 {
     public function getPartBrands($limit, $featured = 0)
@@ -18,14 +18,14 @@ class CatalogModel extends Model
         where stokmarka is not null
         and ifnull(stokfiyati,0) > 0
         and ifnull(s.status,0) = 1 ";
-        if($featured){
-			$q .= " and t.futured = 1 ";
-		}
+        if ($featured) {
+            $q .= " and t.futured = 1 ";
+        }
         $q .= " group by s.stokmarka
         order by s.stokmarka ";
-        if($limit > 0){
-			$q .= " limit $limit ";
-		}
+        if ($limit > 0) {
+            $q .= " limit $limit ";
+        }
         return $this->db->query($q)->getResult();
     }
 
@@ -44,7 +44,7 @@ class CatalogModel extends Model
         and E.GA_ASSEMBLY is not null
         and L.disable = 0
         ORDER BY GA_ASSEMBLY, E.GA_STANDARD ";
-		
+
         return $this->db->query($q)->getResult();
     }
 
@@ -60,9 +60,8 @@ class CatalogModel extends Model
         and madeniyag = 0
         and status = 1
         and ifnull(stokfiyati,0) > 0 
-        limit 1 "
-        ;
-		
+        limit 1 ";
+
         return $this->db->query($q)->getResult();
     }
 
@@ -79,7 +78,7 @@ class CatalogModel extends Model
         and stokfiyati > 0
         order by kate1 
         ";
-                
+
         return $this->db->query($q)->getResult();
     }
 
@@ -96,7 +95,7 @@ class CatalogModel extends Model
         k.status = 1
         group by u.altkate
         ";
-                
+
         return $this->db->query($q)->getResult();
     }
 
@@ -116,7 +115,7 @@ class CatalogModel extends Model
         group by kampanya, arac_marka
         order by arac_marka
         ";
-                
+
         return $this->db->query($q)->getResult();
     }
 
@@ -138,8 +137,7 @@ class CatalogModel extends Model
         having count(eg.GA_STANDARD) > 0
         order by eg.GA_STANDARD
         ";
-                
+
         return $this->db->query($q)->getResult();
     }
-    
 }

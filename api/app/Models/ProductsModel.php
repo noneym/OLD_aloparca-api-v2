@@ -1,10 +1,9 @@
 <?php namespace App\Models;
-  
+
 use CodeIgniter\Model;
- 
+
 class ProductsModel extends Model
 {
-
     public function getProductDetail($productNo)
     {
         $q = "
@@ -40,23 +39,22 @@ class ProductsModel extends Model
         and status = 1
         limit 1
         ";
-		
+
         return $this->db->query($q)->getResult();
     }
 
-    public function getParts($arrParams = array())
+    public function getParts($arrParams = [])
     {
         $q = "";
-		
+
         return $this->db->query($q)->getResult();
     }
 
     public function getAccesoriesParts($categoryName, $page)
     {
-        
         $pageCount = 1;
         $productCount = 20;
-        if($page == 1){
+        if ($page == 1) {
             $q = "
             select
             no
@@ -65,23 +63,22 @@ class ProductsModel extends Model
             aksesuar = 1
             and stokfiyati > 0
             and status = 1 ";
-            if($categoryName != 0){
-                $categoryName = str_replace('-',' ',$categoryName);
-                $q .= " and kate1 = '{$categoryName}'"; 
+            if ($categoryName != 0) {
+                $categoryName = str_replace("-", " ", $categoryName);
+                $q .= " and kate1 = '{$categoryName}'";
             }
-            
+
             $prods = $this->db->query($q)->getResult();
-            if($prods){
+            if ($prods) {
                 $passCount = 0;
                 $productCount = count($prods);
-                $pageCount = ceil(count($prods)/20);
-            }else{
+                $pageCount = ceil(count($prods) / 20);
+            } else {
                 return false;
             }
-        }else{
-            $passCount = 20*($page-1);
+        } else {
+            $passCount = 20 * ($page - 1);
         }
-
 
         $q = "
         select
@@ -91,27 +88,30 @@ class ProductsModel extends Model
         aksesuar = 1
         and stokfiyati > 0
         and status = 1 ";
-        if($categoryName != 0){
-            $categoryName = str_replace('-',' ',$categoryName);
-            $q .= " and kate1 = '{$categoryName}'"; 
+        if ($categoryName != 0) {
+            $categoryName = str_replace("-", " ", $categoryName);
+            $q .= " and kate1 = '{$categoryName}'";
         }
         $q .= " order by stokdurumu desc, stokfiyati asc ";
         $q .= " limit $passCount, 20";
-		
+
         $products = $this->db->query($q)->getResult();
 
-        if($products){
-            return array('total_pages' => $pageCount, 'total_products' => $productCount, 'products' => $products);
+        if ($products) {
+            return [
+                "total_pages" => $pageCount,
+                "total_products" => $productCount,
+                "products" => $products,
+            ];
         }
         return false;
     }
 
     public function getOilProducts($mainCategory, $subCategory, $page)
     {
-        
         $pageCount = 1;
         $productCount = 20;
-        if($page == 1){
+        if ($page == 1) {
             $q = "
             select
             s.no
@@ -120,26 +120,25 @@ class ProductsModel extends Model
             where
             stokfiyati > 0
             and status = 1 ";
-            if($mainCategory != 0){
-                $q .= " and k.ustkate = '{$mainCategory}'"; 
+            if ($mainCategory != 0) {
+                $q .= " and k.ustkate = '{$mainCategory}'";
             }
 
-            if($subCategory != 0){
-                $q .= " and k.altkat_slug = '{$subCategory}'"; 
+            if ($subCategory != 0) {
+                $q .= " and k.altkat_slug = '{$subCategory}'";
             }
 
             $prods = $this->db->query($q)->getResult();
-            if($prods){
+            if ($prods) {
                 $passCount = 0;
                 $productCount = count($prods);
-                $pageCount = ceil(count($prods)/20);
-            }else{
+                $pageCount = ceil(count($prods) / 20);
+            } else {
                 return false;
             }
-        }else{
-            $passCount = 20*($page-1);
+        } else {
+            $passCount = 20 * ($page - 1);
         }
-
 
         $q = "
         select
@@ -149,20 +148,24 @@ class ProductsModel extends Model
             where
             stokfiyati > 0
             and status = 1 ";
-            if($mainCategory != 0){
-                $q .= " and k.ustkate = '{$mainCategory}'"; 
-            }
+        if ($mainCategory != 0) {
+            $q .= " and k.ustkate = '{$mainCategory}'";
+        }
 
-            if($subCategory != 0){
-                $q .= " and k.altkat_slug = '{$subCategory}'"; 
-            }
+        if ($subCategory != 0) {
+            $q .= " and k.altkat_slug = '{$subCategory}'";
+        }
         $q .= " order by stokdurumu desc, stokfiyati asc ";
         $q .= " limit $passCount, 20";
-		
+
         $products = $this->db->query($q)->getResult();
 
-        if($products){
-            return array('total_pages' => $pageCount, 'total_products' => $productCount, 'products' => $products);
+        if ($products) {
+            return [
+                "total_pages" => $pageCount,
+                "total_products" => $productCount,
+                "products" => $products,
+            ];
         }
         return false;
     }
@@ -170,17 +173,26 @@ class ProductsModel extends Model
     public function getProductDescription($productNo, $supplierCode, $name, $brandName)
     {
         $q = "select aciklama as description from stokyonetimi2 where no = {$productNo} limit 1";
-		
-        $prod = $this->db->query($q)->getResult(); 
-        if($prod){
+
+        $prod = $this->db->query($q)->getResult();
+        if ($prod) {
             $prod = $prod[0];
-            $description = str_replace("\r", " ", (string)$prod->description);
+            $description = str_replace("\r", " ", (string) $prod->description);
             $description = str_replace("\n", " ", $description);
             $description = str_replace("  ", "", ucfirst($description));
         }
-        if(strlen($description) < 10){
+        if (strlen($description) < 10) {
             $siteLink = ' <a href=\"https://www.aloparca.com/\">aloparca.com</a> \'da ';
-            $description = "En cazip fiyatlar ile ".$siteLink." satışa sunulan ".$supplierCode." ".$brandName." stok kodlu ".$name.",  müşterilerimize en güvenli şekilde en hızlı kargo ile teslim edilmektedir.";
+            $description =
+                "En cazip fiyatlar ile " .
+                $siteLink .
+                " satışa sunulan " .
+                $supplierCode .
+                " " .
+                $brandName .
+                " stok kodlu " .
+                $name .
+                ",  müşterilerimize en güvenli şekilde en hızlı kargo ile teslim edilmektedir.";
         }
 
         return $description;
@@ -189,22 +201,22 @@ class ProductsModel extends Model
     public function getProdBrandLogo($brandName)
     {
         $q = "select TTC_BRA_ID from TABLEBRANDS where BRAND = '{$brandName}' limit 1";
-		
-        $prod = $this->db->query($q)->getResult(); 
-        if($prod){
+
+        $prod = $this->db->query($q)->getResult();
+        if ($prod) {
             $prod = $prod[0];
-            return "/Brand_logos/".$prod->TTC_BRA_ID.".jpg";
+            return "/Brand_logos/" . $prod->TTC_BRA_ID . ".jpg";
         }
 
-        return '';
+        return "";
     }
 
     public function getcompatibleVehicleStatus($productID)
     {
         $q = "select TTC_TYP_ID from EXPORTADDITION_TYPID_ARTID where TTC_ART_ID = '{$productID}' limit 1";
-		
-        $prod = $this->db->query($q)->getResult(); 
-        if($prod){
+
+        $prod = $this->db->query($q)->getResult();
+        if ($prod) {
             return true;
         }
 
@@ -225,7 +237,7 @@ class ProductsModel extends Model
         and k.status = 1
         limit 1
         ";
-                
+
         return $this->db->query($q)->getResult();
     }
 
@@ -238,12 +250,12 @@ class ProductsModel extends Model
         where marka = '{$brandName}'
         limit 1
         ";
-                
+
         $result = $this->db->query($q)->getResult();
-        if($result){
+        if ($result) {
             return $result[0]->description;
         }
-        return  null;
+        return null;
     }
 
     public function getCompatibleVehicles($productID)
@@ -257,52 +269,57 @@ class ProductsModel extends Model
             and ifnull(disable,0) = 0 
         limit 100
         ";
-                
+
         $result = $this->db->query($q)->getResult();
 
-        $arrCars = array();
-        if($result){
-            $q = 'select 
+        $arrCars = [];
+        if ($result) {
+            $q =
+                'select 
             CAR_BRANDS,MODEL_CAR,TYP_CAR,OF_THE_YEAR,UP_TO_A_YEAR,KV,BODY_TYPE
             from TABLECARS 
             where 
-            TTC_TYP_ID in ('.$result[0]->typId.')
+            TTC_TYP_ID in (' .
+                $result[0]->typId .
+                ')
             and ifnull(disable,0) = 0
             ORDER BY CAR_BRANDS,MODEL_CAR,TYP_CAR,OF_THE_YEAR,UP_TO_A_YEAR,KV,BODY_TYPE
             ';
             $arrCarResult = $this->db->query($q)->getResult();
-            if($arrCarResult){
+            if ($arrCarResult) {
                 foreach ($arrCarResult as $key => $car) {
-                    $arrCars[] = array(
-                        'car_brand'     => $car->CAR_BRANDS,
-                        'car_model'     => $car->MODEL_CAR,
-                        'body_type'     => $car->BODY_TYPE,
-                        'engine'        => $car->TYP_CAR,
-                        'kv'            => $car->KV,
-                        'year'          => $car->OF_THE_YEAR.' - '.($car->UP_TO_A_YEAR < 1 ? 'Sonrası' : $car->UP_TO_A_YEAR)
-                    );
+                    $arrCars[] = [
+                        "car_brand" => $car->CAR_BRANDS,
+                        "car_model" => $car->MODEL_CAR,
+                        "body_type" => $car->BODY_TYPE,
+                        "engine" => $car->TYP_CAR,
+                        "kv" => $car->KV,
+                        "year" =>
+                            $car->OF_THE_YEAR .
+                            " - " .
+                            ($car->UP_TO_A_YEAR < 1 ? "Sonrası" : $car->UP_TO_A_YEAR),
+                    ];
                 }
             }
         }
-        return  $arrCars;
+        return $arrCars;
     }
 
     public function getProdFeatures($productID)
     {
         $q = "SELECT NAMECRITERIA,VALUECRITERIA FROM MAINTABLEPARTSCRI WHERE TTC_ART_ID = {$productID}";
-                
+
         $result = $this->db->query($q)->getResult();
 
-        $arrFeatures = array();
-        if($result){
+        $arrFeatures = [];
+        if ($result) {
             foreach ($arrFeatures as $key => $car) {
-                $arrFeatures[] = array(
-                    'name'      => $car->NAMECRITERIA,
-                    'value'     => $car->VALUECRITERIA
-                );
+                $arrFeatures[] = [
+                    "name" => $car->NAMECRITERIA,
+                    "value" => $car->VALUECRITERIA,
+                ];
             }
         }
-        return  $arrFeatures;
+        return $arrFeatures;
     }
-
 }

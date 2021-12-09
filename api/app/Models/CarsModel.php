@@ -1,12 +1,12 @@
 <?php namespace App\Models;
-  
+
 use CodeIgniter\Model;
- 
+
 class CarsModel extends Model
 {
     public function getCarBrands()
     {
-        helper('aloparca'); 
+        helper("aloparca");
         $q = "
         SELECT
         CAR_BRANDS as name
@@ -105,6 +105,4 @@ class CarsModel extends Model
         ";
         return $this->db->query($q)->getResult();
     }
-
-    
 }

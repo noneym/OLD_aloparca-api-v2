@@ -1,0 +1,17 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "Aloparca API",
+  "main": "index.js",
+  "author": "Efe Mert Demir <emdemir.emd@gmail.com>",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.17.6",
+    "prettier": "^2.5.1"
+  },
+  "scripts": {
+    "lint:php": "prettier --check api/app/**/*.php",
+    "lint": "yarn lint:php"
+  }
+}

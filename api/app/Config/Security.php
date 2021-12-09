@@ -15,7 +15,7 @@ class Security extends BaseConfig
      *
      * @var string 'cookie' or 'session'
      */
-    public $csrfProtection = 'cookie';
+    public $csrfProtection = "cookie";
 
     /**
      * --------------------------------------------------------------------------
@@ -26,7 +26,7 @@ class Security extends BaseConfig
      *
      * @var string
      */
-    public $tokenName = 'csrf_test_name';
+    public $tokenName = "csrf_test_name";
 
     /**
      * --------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class Security extends BaseConfig
      *
      * @var string
      */
-    public $headerName = 'X-CSRF-TOKEN';
+    public $headerName = "X-CSRF-TOKEN";
 
     /**
      * --------------------------------------------------------------------------
@@ -48,7 +48,7 @@ class Security extends BaseConfig
      *
      * @var string
      */
-    public $cookieName = 'csrf_cookie_name';
+    public $cookieName = "csrf_cookie_name";
 
     /**
      * --------------------------------------------------------------------------
@@ -102,5 +102,5 @@ class Security extends BaseConfig
      *
      * @deprecated
      */
-    public $samesite = 'Lax';
+    public $samesite = "Lax";
 }

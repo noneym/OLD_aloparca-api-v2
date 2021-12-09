@@ -23,9 +23,9 @@ class Format extends BaseConfig
      * @var string[]
      */
     public $supportedResponseFormats = [
-        'application/json',
-        'application/xml', // machine-readable XML
-        'text/xml', // human-readable XML
+        "application/json",
+        "application/xml", // machine-readable XML
+        "text/xml", // human-readable XML
     ];
 
     /**
@@ -40,9 +40,9 @@ class Format extends BaseConfig
      * @var array<string, string>
      */
     public $formatters = [
-        'application/json' => 'CodeIgniter\Format\JSONFormatter',
-        'application/xml'  => 'CodeIgniter\Format\XMLFormatter',
-        'text/xml'         => 'CodeIgniter\Format\XMLFormatter',
+        "application/json" => "CodeIgniter\Format\JSONFormatter",
+        "application/xml" => "CodeIgniter\Format\XMLFormatter",
+        "text/xml" => "CodeIgniter\Format\XMLFormatter",
     ];
 
     /**
@@ -56,9 +56,9 @@ class Format extends BaseConfig
      * @var array<string, int>
      */
     public $formatterOptions = [
-        'application/json' => JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
-        'application/xml'  => 0,
-        'text/xml'         => 0,
+        "application/json" => JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES,
+        "application/xml" => 0,
+        "text/xml" => 0,
     ];
 
     /**

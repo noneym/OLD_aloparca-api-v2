@@ -26,21 +26,21 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $userAgent = 'CodeIgniter';
+    public $userAgent = "CodeIgniter";
 
     /**
      * The mail sending protocol: mail, sendmail, smtp
      *
      * @var string
      */
-    public $protocol = 'mail';
+    public $protocol = "mail";
 
     /**
      * The server path to Sendmail.
      *
      * @var string
      */
-    public $mailPath = '/usr/sbin/sendmail';
+    public $mailPath = "/usr/sbin/sendmail";
 
     /**
      * SMTP Server Address
@@ -89,7 +89,7 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $SMTPCrypto = 'tls';
+    public $SMTPCrypto = "tls";
 
     /**
      * Enable word-wrap
@@ -110,14 +110,14 @@ class Email extends BaseConfig
      *
      * @var string
      */
-    public $mailType = 'text';
+    public $mailType = "text";
 
     /**
      * Character set (utf-8, iso-8859-1, etc.)
      *
      * @var string
      */
-    public $charset = 'UTF-8';
+    public $charset = "UTF-8";
 
     /**
      * Whether to validate the email address

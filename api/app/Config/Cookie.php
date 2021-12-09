@@ -16,7 +16,7 @@ class Cookie extends BaseConfig
      *
      * @var string
      */
-    public $prefix = '';
+    public $prefix = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -40,7 +40,7 @@ class Cookie extends BaseConfig
      *
      * @var string
      */
-    public $path = '/';
+    public $path = "/";
 
     /**
      * --------------------------------------------------------------------------
@@ -51,7 +51,7 @@ class Cookie extends BaseConfig
      *
      * @var string
      */
-    public $domain = '';
+    public $domain = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -97,7 +97,7 @@ class Cookie extends BaseConfig
      *
      * @var string
      */
-    public $samesite = 'Lax';
+    public $samesite = "Lax";
 
     /**
      * --------------------------------------------------------------------------

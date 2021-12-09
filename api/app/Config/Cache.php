@@ -22,7 +22,7 @@ class Cache extends BaseConfig
      *
      * @var string
      */
-    public $handler = 'redis';
+    public $handler = "redis";
 
     /**
      * --------------------------------------------------------------------------
@@ -35,7 +35,7 @@ class Cache extends BaseConfig
      *
      * @var string
      */
-    public $backupHandler = 'dummy';
+    public $backupHandler = "dummy";
 
     /**
      * --------------------------------------------------------------------------
@@ -49,7 +49,7 @@ class Cache extends BaseConfig
      *
      * @deprecated Use the driver-specific variant under $file
      */
-    public $storePath = WRITEPATH . 'cache/';
+    public $storePath = WRITEPATH . "cache/";
 
     /**
      * --------------------------------------------------------------------------
@@ -80,7 +80,7 @@ class Cache extends BaseConfig
      *
      * @var string
      */
-    public $prefix = '';
+    public $prefix = "";
 
     /**
      * --------------------------------------------------------------------------
@@ -109,7 +109,7 @@ class Cache extends BaseConfig
      *
      * @var string
      */
-    public $reservedCharacters = '{}()/\@:';
+    public $reservedCharacters = "{}()/\@:";
 
     /**
      * --------------------------------------------------------------------------
@@ -121,8 +121,8 @@ class Cache extends BaseConfig
      * @var array<string, int|string|null>
      */
     public $file = [
-        'storePath' => WRITEPATH . 'cache/',
-        'mode'      => 0640,
+        "storePath" => WRITEPATH . "cache/",
+        "mode" => 0640,
     ];
 
     /**
@@ -137,10 +137,10 @@ class Cache extends BaseConfig
      * @var array<string, boolean|int|string>
      */
     public $memcached = [
-        'host'   => '127.0.0.1',
-        'port'   => 11211,
-        'weight' => 1,
-        'raw'    => false,
+        "host" => "127.0.0.1",
+        "port" => 11211,
+        "weight" => 1,
+        "raw" => false,
     ];
 
     /**
@@ -171,11 +171,11 @@ class Cache extends BaseConfig
      * @var array<string, string>
      */
     public $validHandlers = [
-        'dummy'     => DummyHandler::class,
-        'file'      => FileHandler::class,
-        'memcached' => MemcachedHandler::class,
-        'predis'    => PredisHandler::class,
-        'redis'     => RedisHandler::class,
-        'wincache'  => WincacheHandler::class,
+        "dummy" => DummyHandler::class,
+        "file" => FileHandler::class,
+        "memcached" => MemcachedHandler::class,
+        "predis" => PredisHandler::class,
+        "redis" => RedisHandler::class,
+        "wincache" => WincacheHandler::class,
     ];
 }
