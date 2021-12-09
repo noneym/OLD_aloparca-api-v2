@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 # For development and production-specific configuration,
 # check out docker-compose.override.yml and docker-compose.prod.yml
