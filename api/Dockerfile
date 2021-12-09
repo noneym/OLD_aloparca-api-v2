@@ -38,12 +38,14 @@ COPY writable ./writable
 COPY public ./public
 COPY app ./app
 
-FROM api AS api-development
-
-# Copy the local development config
-COPY .env ./
-
 FROM api AS api-production
+WORKDIR /app
 
 # Link in the Docker secret
 RUN ln -s /run/secrets/env ./.env
+
+FROM api AS api-development
+WORKDIR /app
+
+# Copy the local development config
+COPY .env ./
