@@ -26,3 +26,9 @@ services:
       - ./api/public:/app/public
     ports:
       - 8000:80
+
+networks:
+  api-frontend:
+    driver: bridge
+  api-backend:
+    driver: bridge

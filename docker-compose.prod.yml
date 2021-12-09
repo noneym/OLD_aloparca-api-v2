@@ -36,3 +36,9 @@ services:
 
 volumes:
   redis-data:
+
+networks:
+  api-frontend:
+    external: true
+  api-backend:
+    external: true

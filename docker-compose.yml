@@ -21,9 +21,3 @@ services:
       - api
     networks:
       - api-frontend
-
-networks:
-  api-frontend:
-    driver: bridge
-  api-backend:
-    driver: bridge
