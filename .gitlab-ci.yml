@@ -18,7 +18,7 @@ build_api:
   stage: build
   script:
     - cd api
-    - docker build -t aloparca/api:$IMAGE_VERSION .
+    - docker build -t aloparca/api:$IMAGE_VERSION --target api-production .
   needs: ["lint"]
 
 push_api:
