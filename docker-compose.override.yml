@@ -6,6 +6,7 @@ services:
       context: ./api
       dockerfile: Dockerfile
       target: api-development
+    restart: on-failure
     volumes:
       - ./api/app:/app/app
       - ./api/public:/app/public
@@ -15,7 +16,11 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
+  redis:
+    restart: on-failure
+
   nginx:
+    restart: on-failure
     volumes:
       - ./nginx/dev:/etc/nginx/conf.d
       - ./api/public:/app/public

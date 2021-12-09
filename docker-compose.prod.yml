@@ -2,10 +2,7 @@ version: "3.8"
 
 services:
   api:
-    build:
-      context: ./api
-      dockerfile: Dockerfile
-      target: api-production
+    image: registry.alopar.ca/aloparca/api
     deploy:
       replicas: 4
       restart_policy:

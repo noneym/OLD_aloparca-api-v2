@@ -5,21 +5,18 @@ version: "3.8"
 # respectively.
 services:
   api:
-    restart: on-failure
     networks:
       - api-backend
       - api-frontend
 
   redis:
     image: redis:6-alpine
-    restart: on-failure
     networks:
       - api-backend
     command: redis-server --save 120 1 --loglevel warning
 
   nginx:
     image: nginx:mainline-alpine
-    restart: on-failure
     depends_on:
       - api
     networks:
