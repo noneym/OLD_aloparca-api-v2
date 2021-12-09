@@ -9,30 +9,19 @@ class Cars extends ResourceController
 {
     use ResponseTrait;
 
-    public function Brands()
+    public function __construct()
     {
-        $model = new CarsModel();
-        $arrResult = cache("car_brands");
+        helper("aloparca");
+        $this->setModel(new CarsModel());
+    }
 
-        if (empty($arrResult)) {
-            $arrResult = [];
-            $arrBrands = $model->getCarBrands();
-            if ($arrBrands) {
-                foreach ($arrBrands as $key => $item) {
-                    $arrResult[] = [
-                        "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
-                    ];
-                }
-            }
-            //cache()->save($arrResult, 'car_brands',604800);
-        }
-
-        if ($arrResult) {
+    private function respondWith($result)
+    {
+        if ($result) {
             $response = [
                 "status" => 201,
                 "error" => null,
-                "result" => $arrResult,
+                "result" => $result,
             ];
             return $this->respond($response);
         } else {
@@ -47,14 +36,34 @@ class Cars extends ResourceController
         }
     }
 
+    public function Brands()
+    {
+        $arrResult = cache("car_brands");
+
+        if ($arrResult === null) {
+            $arrResult = [];
+            $arrBrands = $this->model->getCarBrands();
+            if ($arrBrands) {
+                foreach ($arrBrands as $key => $item) {
+                    $arrResult[] = [
+                        "name" => $item->name,
+                        "slug" => aloparca::validUrl($item->name, "_"),
+                    ];
+                }
+            }
+            cache()->save("car_brands", $arrResult, 604800);
+        }
+
+        return $this->respondWith($arrResult);
+    }
+
     public function Models($brand)
     {
-        helper("aloparca");
-        $cacheKey = "car_models:" . $brand;
+        $cacheKey = "car_models-$brand";
         $arrResult = cache($cacheKey);
-        $model = new CarsModel();
+
         if (empty($arrResult)) {
-            $arrModels = $model->getCarModels(str_replace("_", " ", $brand));
+            $arrModels = $this->model->getCarModels(str_replace("_", " ", $brand));
             $arrResult = [];
             if ($arrModels) {
                 foreach ($arrModels as $key => $item) {
@@ -65,105 +74,56 @@ class Cars extends ResourceController
                     ];
                 }
             }
-            //cache()->save($arrResult, $cacheKey,604800);
+
+            cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        if ($arrResult) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $arrResult,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
+        return $this->respondWith($arrResult);
     }
 
     public function Bodies($brand, $carModel)
     {
-        helper("aloparca");
-        $cacheKey = "car_bodies:" . $brand . ":" . $carModel;
+        $cacheKey = "car_bodies-$brand-$carModel";
         $arrResult = cache($cacheKey);
-        $model = new CarsModel();
+
         if (empty($arrResult)) {
             $arrResult = [];
-            $arrBrands = $model->getCarBodies($brand, $carModel);
-            if ($arrBrands) {
-                foreach ($arrBrands as $key => $item) {
+            $arrBodies = $this->model->getCarBodies($brand, $carModel);
+            if ($arrBodies) {
+                foreach ($arrBodies as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
                         "slug" => aloparca::validUrl($item->name, "_"),
                     ];
                 }
             }
-            //cache()->save($arrResult, $cacheKey,604800);
+            cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        if ($arrResult) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $arrResult,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
+        return $this->respondWith($arrResult);
     }
 
     public function ModelYears($brand, $carModel, $body)
     {
-        $cacheKey = "car_model_years:" . $brand . ":" . $carModel . ":" . $body;
+        $cacheKey = "car_model_years-$brand-$carModel-$body";
         $arrResult = cache($cacheKey);
-        $model = new CarsModel();
+
         if (empty($arrResult)) {
-            $arrResult = $model->getCarModelYears($brand, $carModel, $body);
-            //cache()->save($arrResult, $cacheKey,604800);
+            $arrResult = $this->model->getCarModelYears($brand, $carModel, $body);
+            cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        if ($arrResult) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $arrResult,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
+        return $this->respondWith($arrResult);
     }
 
     public function Engines($brand, $carModel, $body, $modelYear)
     {
-        helper("aloparca");
-        $cacheKey = "car_engines:" . $brand . ":" . $carModel . ":" . $body . ":" . $modelYear;
+        $cacheKey = "car_engines-$brand-$carModel-$body-$modelYear";
         $arrResult = cache($cacheKey);
-        $model = new CarsModel();
+
         if (empty($arrResult)) {
             $arrResult = [];
-            $arrEngines = $model->getCarEngines($brand, $carModel, $body, $modelYear);
+            $arrEngines = $this->model->getCarEngines($brand, $carModel, $body, $modelYear);
             if ($arrEngines) {
                 foreach ($arrEngines as $key => $item) {
                     $arrResult[] = [
@@ -172,38 +132,20 @@ class Cars extends ResourceController
                     ];
                 }
             }
-            //cache()->save($arrResult, $cacheKey,604800);
+            cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        if ($arrResult) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $arrResult,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
+        return $this->respondWith($arrResponse);
     }
 
     public function Kw($brand, $carModel, $body, $modelYear, $engine)
     {
-        helper("aloparca");
-        $cacheKey =
-            "car_kw:" . $brand . ":" . $carModel . ":" . $body . ":" . $modelYear . ":" . $engine;
+        $cacheKey = "car_kw-$brand-$carModel-$body-$modelYear-$engine";
         $arrResult = cache($cacheKey);
-        $model = new CarsModel();
+
         if (empty($arrResult)) {
             $arrResult = [];
-            $arrKw = $model->getCarKw($brand, $carModel, $body, $modelYear, $engine);
+            $arrKw = $this->model->getCarKw($brand, $carModel, $body, $modelYear, $engine);
             if ($arrKw) {
                 foreach ($arrKw as $key => $item) {
                     $arrResult[] = [
@@ -212,25 +154,10 @@ class Cars extends ResourceController
                     ];
                 }
             }
-            //cache()->save($arrResult, $cacheKey,604800);
+
+            cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        if ($arrResult) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $arrResult,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
+        return $this->respondWith($response);
     }
 }
