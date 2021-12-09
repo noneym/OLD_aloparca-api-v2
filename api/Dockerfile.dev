@@ -15,11 +15,21 @@ COPY --from=composer /app/vendor ./vendor
 # Install library requirements
 RUN apt update && apt install -y libcurl4-gnutls-dev libxml2-dev
 
+# Grab pickle
+RUN curl -Lo pickle.phar https://github.com/FriendsOfPHP/pickle/releases/download/v0.7.7/pickle.phar \
+    && chmod +x pickle.phar \
+    && mv pickle.phar /usr/local/bin/pickle
+
 # Install required native extensions
 RUN docker-php-ext-install -j$(nproc) curl dom fileinfo intl mysqli
 
+# Install PHP Redis support
+RUN pickle install -n igbinary
+RUN pickle install -n redis
+RUN docker-php-ext-enable redis
+
 # Install XDebug for application profiling
-RUN yes | pecl install xdebug
+RUN pickle install -n xdebug
 COPY docker/90-xdebug.ini "$PHP_INI_DIR/conf.d"
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
