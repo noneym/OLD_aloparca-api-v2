@@ -1,0 +1,9 @@
+FROM nginx:mainline-alpine
+
+# Copy the public files from the API
+WORKDIR /app
+COPY ./api/public ./public
+
+# Copy the production config
+WORKDIR /etc/nginx/conf.d
+COPY ./nginx/prod ./

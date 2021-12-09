@@ -20,6 +20,9 @@ services:
     restart: on-failure
 
   nginx:
+    build:
+      context: ./
+      dockerfile: nginx/Dockerfile.prod
     restart: on-failure
     volumes:
       - ./nginx/dev:/etc/nginx/conf.d

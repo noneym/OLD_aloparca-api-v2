@@ -12,9 +12,7 @@ services:
           - "node.labels.component == api"
 
   nginx:
-    volumes:
-      - ./nginx/dev:/etc/nginx/conf.d
-      - ./api/public:/app/public
+    image: registry.alopar.ca/aloparca/api-nginx
     deploy:
       restart_policy:
         condition: on-failure
