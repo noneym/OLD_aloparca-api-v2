@@ -1,0 +1,78 @@
+stages:
+  - lint
+  - build
+  - push
+  - deploy
+
+before_script:
+  - export IMAGE_VERSION="$(git show -s --format=%ct $CI_COMMIT_SHORT_SHA | date +%y%m%d.$CI_COMMIT_SHORT_SHA)"
+
+lint:
+  stage: lint
+  script:
+    - yarn
+    - yarn lint
+  needs: []
+
+build_api:
+  stage: build
+  script:
+    - cd api
+    - docker build -t aloparca/api:$IMAGE_VERSION .
+  needs: ["lint"]
+
+push_api:
+  stage: push
+  only:
+    - master
+  script:
+    - docker tag aloparca/api:$IMAGE_VERSION registry.alopar.ca/aloparca/api:$IMAGE_VERSION
+    - docker tag aloparca/api:$IMAGE_VERSION registry.alopar.ca/aloparca/api:latest
+
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.alopar.ca
+
+    - docker push registry.alopar.ca/aloparca/api:$IMAGE_VERSION
+    - docker push registry.alopar.ca/aloparca/api:latest
+  needs: ["build_api"]
+
+deploy_api:
+  stage: deploy
+  only:
+    - master
+  script:
+    - deploy_output=$(curl -X POST -i "$API_DEPLOY_WEBHOOK"?tag=v2-test)
+    - 'if ! grep -q "204 No Content" <<<"$deploy_output"; then echo "$deploy_output"; exit 1; fi'
+  environment:
+    name: production
+    url: https://api.alopar.ca/
+  needs: ["push_api"]
+
+build_nginx:
+  stage: build
+  script:
+    - cd api
+    - docker build -t aloparca/api-nginx:$IMAGE_VERSION -f nginx/Dockerfile.prod .
+  needs: ["lint"]
+
+push_nginx:
+  stage: push
+  only:
+    - master
+  script:
+    - docker tag aloparca/api-nginx:$IMAGE_VERSION registry.alopar.ca/aloparca/api-nginx:$IMAGE_VERSION
+    - docker tag aloparca/api-nginx:$IMAGE_VERSION registry.alopar.ca/aloparca/api-nginx:latest
+
+    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD registry.alopar.ca
+
+    - docker push registry.alopar.ca/aloparca/api-nginx:$IMAGE_VERSION
+    - docker push registry.alopar.ca/aloparca/api-nginx:latest
+  needs: ["build_nginx"]
+
+deploy_nginx:
+  stage: deploy
+  only:
+    - master
+  script:
+    - deploy_output=$(curl -X POST -i "$API_NGINX_DEPLOY_WEBHOOK"?tag=v2-test)
+    - 'if ! grep -q "204 No Content" <<<"$deploy_output"; then echo "$deploy_output"; exit 1; fi'
+  needs: ["push_nginx"]
