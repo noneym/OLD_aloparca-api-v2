@@ -33,26 +33,31 @@ $routes->setAutoRoute(false);
 // route since we don't have to scan directories.
 
 // Cars
-$routes->get("/Brands", "Cars::Brands");
-$routes->get("/Models", "Cars::Models");
-$routes->get("/Bodies", "Cars::Bodies");
-$routes->get("/ModelYears", "Cars::ModelYears");
-$routes->get("/Engines", "Cars::Engines");
-$routes->get("/Kw", "Cars::Kw");
+$routes->get("/Cars/Brands", "Cars::Brands");
+$routes->get("/Cars/Models/(:segment)", 'Cars::Models/$1');
+$routes->get("/Cars/Bodies/(:segment)/(:segment)", 'Cars::Bodies/$1/$2');
+$routes->get("/Cars/ModelYears/(:segment)/(:segment)/(:segment)", 'Cars::ModelYears/$1/$2/$3');
+$routes->get(
+    "/Cars/Engines/(:segment)/(:segment)/(:segment)/(:segment)",
+    'Cars::Engines/$1/$2/$3/$4'
+);
+$routes->get(
+    "/Cars/Kw/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)",
+    'Cars::Kw/$1/$2/$3/$4/$5'
+);
 
 // Catalog
-$routes->get("/PartBrands", "Catalog::PartBrands");
-$routes->get("/AccesoriesCategories", "Catalog::AccesoriesCategories");
-$routes->get("/MineralOilCategories", "Catalog::MineralOilCategories");
-$routes->get("/CampianList", "Catalog::CampianList");
-$routes->get("/CampianList", "Catalog::CampianList");
-$routes->get("/PartBrandCategories", "Catalog::PartBrandCategories");
+$routes->get("/Catalog/PartBrands", "Catalog::PartBrands");
+$routes->get("/Catalog/AccesoriesCategories", "Catalog::AccesoriesCategories");
+$routes->get("/Catalog/MineralOilCategories", "Catalog::MineralOilCategories");
+$routes->get("/Catalog/CampaignList", "Catalog::CampaignList");
+$routes->get("/Catalog/PartBrandCategories/(:segment)", 'Catalog::PartBrandCategories/$1');
 
 // Products
-$routes->get("/SparePartList", "Products::SparePartList");
-$routes->get("/AccesoriesList", "Products::AccesoriesList");
-$routes->get("/MineralOilList", "Products::MineralOilList");
-$routes->get("/Detail", "Products::Detail");
+$routes->get("/Products/SparePartList", "Products::SparePartList");
+$routes->get("/Products/AccesoriesList", "Products::AccesoriesList");
+$routes->get("/Products/MineralOilList", "Products::MineralOilList");
+$routes->get("/Products/Detail", "Products::Detail");
 /*
  * --------------------------------------------------------------------
  * Additional Routing
