@@ -40,7 +40,7 @@ deploy_api:
   only:
     - master
   script:
-    - deploy_output=$(curl -X POST -i "$API_DEPLOY_WEBHOOK"?tag=v2-test)
+    - deploy_output=$(curl -X POST -i "$API_DEPLOY_WEBHOOK")
     - 'if ! grep -q "204 No Content" <<<"$deploy_output"; then echo "$deploy_output"; exit 1; fi'
   environment:
     name: production
@@ -72,6 +72,6 @@ deploy_nginx:
   only:
     - master
   script:
-    - deploy_output=$(curl -X POST -i "$API_NGINX_DEPLOY_WEBHOOK"?tag=v2-test)
+    - deploy_output=$(curl -X POST -i "$API_NGINX_DEPLOY_WEBHOOK")
     - 'if ! grep -q "204 No Content" <<<"$deploy_output"; then echo "$deploy_output"; exit 1; fi'
   needs: ["push_nginx"]
