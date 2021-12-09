@@ -5,6 +5,9 @@ use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
 use App\Models\CarsModel;
 
+/**
+ * @property CarsModel $model
+ */
 class Cars extends ResourceController
 {
     use ResponseTrait;
