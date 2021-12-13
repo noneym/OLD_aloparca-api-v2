@@ -2,7 +2,9 @@
 
 namespace Config;
 
+use CodeIgniter\CodeIgniter;
 use CodeIgniter\Config\BaseService;
+use App\Libraries\CodeIgniter as AppCodeIgniter;
 
 /**
  * Services Configuration file.
@@ -19,14 +21,19 @@ use CodeIgniter\Config\BaseService;
  */
 class Services extends BaseService
 {
-    /*
- * public static function example($getShared = true)
- * {
- *     if ($getShared) {
- *         return static::getSharedInstance('example');
- *     }
- *
- *     return new \CodeIgniter\Example();
- * }
- */
+    /**
+     * CodeIgniter, the core of the framework.
+     *
+     * @return AppCodeIgniter
+     */
+    public static function codeigniter(?App $config = null, bool $getShared = true)
+    {
+        if ($getShared) {
+            return static::getSharedInstance("codeigniter", $config);
+        }
+
+        $config = $config ?? config("App");
+
+        return new AppCodeIgniter($config);
+    }
 }
