@@ -1,3 +1,4 @@
+# -*- mode: conf-unix -*-
 #--------------------------------------------------------------------
 # Example Environment Configuration file
 #
@@ -70,3 +71,13 @@ logger.threshold = 4
 #--------------------------------------------------------------------
 
 curlrequest.shareOptions = false
+
+#--------------------------------------------------------------------
+# Sentry
+#--------------------------------------------------------------------
+
+sentry.enabled = false
+sentry.dsn = 'https://examplePublicKey@o0.ingest.sentry.io/0'
+sentry.sample_rate = 1.0
+sentry.release = 'unknown-local'
+sentry.environment = 'local'
