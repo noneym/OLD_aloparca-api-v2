@@ -1,4 +1,6 @@
-<?php namespace App\Controllers;
+<?php
+
+namespace App\Controllers;
 
 use aloparca;
 use CodeIgniter\RESTful\ResourceController;
@@ -138,7 +140,7 @@ class Cars extends ResourceController
             cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        return $this->respondWith($arrResponse);
+        return $this->respondWith($arrResult);
     }
 
     public function Kw($brand, $carModel, $body, $modelYear, $engine)
@@ -161,6 +163,6 @@ class Cars extends ResourceController
             cache()->save($cacheKey, $arrResult, 604800);
         }
 
-        return $this->respondWith($response);
+        return $this->respondWith($arrResult);
     }
 }
