@@ -69,7 +69,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $defaultLocale = "en";
+    public $defaultLocale = "tr";
 
     /**
      * --------------------------------------------------------------------------
@@ -96,7 +96,7 @@ class App extends BaseConfig
      *
      * @var string[]
      */
-    public $supportedLocales = ["en"];
+    public $supportedLocales = ["tr"];
 
     /**
      * --------------------------------------------------------------------------
@@ -342,7 +342,7 @@ class App extends BaseConfig
      *
      * @var string|string[]
      */
-    public $proxyIPs = "";
+    public $proxyIPs = "172.17.0.0/16"; // The Docker IP range
 
     /**
      * --------------------------------------------------------------------------
