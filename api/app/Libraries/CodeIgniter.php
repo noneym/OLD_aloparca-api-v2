@@ -28,13 +28,13 @@ class CodeIgniter extends BaseCodeIgniter
         $config = config("Sentry");
 
         \Sentry\init([
-            'dsn' => $config->dsn,
-            'release' => $config->release,
-            'environment' => $config->environment,
-            'sample_rate' => (float)$config->sample_rate,
-            'send_default_pii' => true,
-            'in_app_include' => ['App'],
-            'max_request_body_size' => 'medium',
+            "dsn" => $config->dsn,
+            "release" => $config->release,
+            "environment" => $config->environment,
+            "sample_rate" => (float) $config->sample_rate,
+            "send_default_pii" => true,
+            "in_app_include" => ["App"],
+            "max_request_body_size" => "medium",
         ]);
     }
 }

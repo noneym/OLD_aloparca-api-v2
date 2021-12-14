@@ -58,6 +58,18 @@ $routes->get("/Products/SparePartList", "Products::SparePartList");
 $routes->get("/Products/AccesoriesList", "Products::AccesoriesList");
 $routes->get("/Products/MineralOilList", "Products::MineralOilList");
 $routes->get("/Products/Detail", "Products::Detail");
+$routes->get("/Products/RepairPacksCarBrands", "Products::RepairPacksCarBrands");
+$routes->get("/Products/RepairPacksCarModels", "Products::RepairPacksCarModels");
+$routes->get("/Products/RepairPacksCarEngines", "Products::RepairPacksCarEngines");
+$routes->get("/Products/RepairPacks", "Products::RepairPacks");
+
+// Blog
+$routes->get("/Blog", "Blog::index");
+$routes->get("/Blog/PostList", "Blog::PostList");
+$routes->get("/Blog/Detail", "Blog::Detail");
+
+// UrlControl
+$routes->get("/UrlControl/RedirectUri", "UrlControl::RedirectUri");
 /*
  * --------------------------------------------------------------------
  * Additional Routing
