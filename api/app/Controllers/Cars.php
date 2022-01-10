@@ -14,31 +14,12 @@ class Cars extends ResourceController
 {
     use ResponseTrait;
 
+    protected $modelName = 'App\Models\CarsModel';
+    protected $format = 'json';
+
     public function __construct()
     {
         helper("aloparca");
-        $this->setModel(new CarsModel());
-    }
-
-    private function respondWith($result)
-    {
-        if ($result) {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "result" => $result,
-            ];
-            return $this->respond($response);
-        } else {
-            $response = [
-                "status" => 201,
-                "error" => null,
-                "messages" => [
-                    "success" => "No result found",
-                ],
-            ];
-            return $this->respond($response);
-        }
     }
 
     public function Brands()
@@ -49,110 +30,160 @@ class Cars extends ResourceController
             $arrResult = [];
             $arrBrands = $this->model->getCarBrands();
             if ($arrBrands) {
-                foreach ($arrBrands as $key => $item) {
+                foreach ($arrBrands as $item) {
                     $arrResult[] = [
                         "name" => $item->name,
                         "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
-            cache()->save("car_brands", $arrResult, 604800);
+            cache()->save("car_brands", $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        return $this->respond($arrResult);
     }
 
-    public function Models($brand)
+    public function Models(string $brand)
     {
+        $brand = aloparca::slugify($brand);
+
         $cacheKey = "car_models-$brand";
         $arrResult = cache($cacheKey);
 
-        if (empty($arrResult)) {
-            $arrModels = $this->model->getCarModels(str_replace("_", " ", $brand));
+        if ($arrResult === null) {
+            $databaseBrand = strtoupper(str_replace("_", " ", $brand));
+            $arrModels = $this->model->getCarModels($databaseBrand);
             $arrResult = [];
             if ($arrModels) {
-                foreach ($arrModels as $key => $item) {
+                foreach ($arrModels as $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "featured" => (int) $item->futured,
                         "slug" => aloparca::asValidURL($item->name),
+                        "featured" => ((int) $item->futured) === 1,
                     ];
                 }
             }
 
-            cache()->save($cacheKey, $arrResult, 604800);
+            cache()->save($cacheKey, $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        if (empty($arrResult)) {
+            return $this->failNotFound("No models found");
+        }
+
+        return $this->respond($arrResult);
     }
 
-    public function Bodies($brand, $carModel)
+    public function Bodies(string $brand, string $carModel)
     {
+        $brand = aloparca::slugify($brand);
+        $carModel = aloparca::slugify($carModel);
+
         $cacheKey = "car_bodies-$brand-$carModel";
         $arrResult = cache($cacheKey);
 
-        if (empty($arrResult)) {
+        if ($arrResult === null) {
             $arrResult = [];
-            $arrBodies = $this->model->getCarBodies($brand, $carModel);
+
+            $databaseBrand = strtoupper(str_replace("_", " ", $brand));
+            $databaseModel = strtoupper(str_replace("_", " ", $carModel));
+            $arrBodies = $this->model->getCarBodies($databaseBrand, $databaseModel);
             if ($arrBodies) {
-                foreach ($arrBodies as $key => $item) {
+                foreach ($arrBodies as $item) {
                     $arrResult[] = [
                         "name" => $item->name,
                         "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
-            cache()->save($cacheKey, $arrResult, 604800);
+            cache()->save($cacheKey, $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        dd($arrResult);
+
+        if (empty($arrResult)) {
+            return $this->failNotFound('No bodies found');
+        }
+
+        return $this->respond($arrResult);
     }
 
-    public function ModelYears($brand, $carModel, $body)
+    public function ModelYears(string $brand, string $carModel, string $body)
     {
+        $brand = aloparca::slugify($brand);
+        $carModel = aloparca::slugify($carModel);
+        $body = aloparca::slugify($body);
+
         $cacheKey = "car_model_years-$brand-$carModel-$body";
         $arrResult = cache($cacheKey);
 
-        if (empty($arrResult)) {
+        if ($arrResult === null) {
             $arrResult = $this->model->getCarModelYears($brand, $carModel, $body);
-            cache()->save($cacheKey, $arrResult, 604800);
+            cache()->save($cacheKey, $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        if (empty($arrResult)) {
+            return $this->failNotFound('No years found');
+        }
+
+        return $this->respond($arrResult);
     }
 
-    public function Engines($brand, $carModel, $body, $modelYear)
+    public function Engines(string $brand, string $carModel, string $body, string $modelYear)
     {
+        $brand = aloparca::slugify($brand);
+        $carModel = aloparca::slugify($carModel);
+        $body = aloparca::slugify($body);
+        $modelYear = aloparca::asInteger($modelYear);
+
+        if ($modelYear === null) {
+            return $this->fail("Invalid model year");
+        }
+
         $cacheKey = "car_engines-$brand-$carModel-$body-$modelYear";
         $arrResult = cache($cacheKey);
 
-        if (empty($arrResult)) {
+        if ($arrResult === null) {
             $arrResult = [];
             $arrEngines = $this->model->getCarEngines($brand, $carModel, $body, $modelYear);
             if ($arrEngines) {
-                foreach ($arrEngines as $key => $item) {
+                foreach ($arrEngines as $item) {
                     $arrResult[] = [
                         "name" => $item->name,
                         "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
-            cache()->save($cacheKey, $arrResult, 604800);
+            cache()->save($cacheKey, $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        if (empty($arrResult)) {
+            return $this->failNotFound('No engines found');
+        }
+
+        return $this->respond($arrResult);
     }
 
     public function Kw($brand, $carModel, $body, $modelYear, $engine)
     {
+        $brand = aloparca::slugify($brand);
+        $carModel = aloparca::slugify($carModel);
+        $body = aloparca::slugify($body);
+        $modelYear = aloparca::asInteger($modelYear);
+        $engine = aloparca::slugify($engine);
+
+        if ($modelYear === null) {
+            return $this->fail("Invalid model year");
+        }
+
         $cacheKey = "car_kw-$brand-$carModel-$body-$modelYear-$engine";
         $arrResult = cache($cacheKey);
 
-        if (empty($arrResult)) {
+        if ($arrResult === null) {
             $arrResult = [];
             $arrKw = $this->model->getCarKw($brand, $carModel, $body, $modelYear, $engine);
             if ($arrKw) {
-                foreach ($arrKw as $key => $item) {
+                foreach ($arrKw as $item) {
                     $arrResult[] = [
                         "name" => $item->name,
                         "slug" => aloparca::asValidURL($item->name),
@@ -160,9 +191,13 @@ class Cars extends ResourceController
                 }
             }
 
-            cache()->save($cacheKey, $arrResult, 604800);
+            cache()->save($cacheKey, $arrResult, 1 * WEEK);
         }
 
-        return $this->respondWith($arrResult);
+        if (empty($arrResult)) {
+            return $this->failNotFound("Engine power options not found");
+        }
+
+        return $this->respond($arrResult);
     }
 }
