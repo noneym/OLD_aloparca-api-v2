@@ -7,7 +7,7 @@ COPY composer.json composer.lock ./
 # does not come with some of the native extensions that our application requires.
 RUN composer install --ignore-platform-reqs
 
-FROM php:8.0-fpm AS api
+FROM php:8.1-fpm AS api
 WORKDIR /app
 
 COPY --from=composer /app/vendor ./vendor
