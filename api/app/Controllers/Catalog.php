@@ -55,7 +55,7 @@ class Catalog extends ResourceController
                     if (strlen($item->name) > 2) {
                         $arrResult[] = [
                             "name" => $item->name,
-                            "slug" => aloparca::validUrl($item->name, "-"),
+                            "slug" => aloparca::asValidURL($item->name, "-"),
                             "featured" => (int) $item->futured,
                             "product_count" => (int) $item->product_count,
                             "logo" =>
@@ -84,8 +84,8 @@ class Catalog extends ResourceController
                     $prodControl = $this->model->prodStockControlForCategory($item->partLinkID);
 
                     if ($prodControl) {
-                        $catUrl = aloparca::validUrl($item->mainCatName);
-                        $subcatUrl = aloparca::validUrl($item->subCatName);
+                        $catUrl = aloparca::asValidURL($item->mainCatName);
+                        $subcatUrl = aloparca::asValidURL($item->subCatName);
                         $arrResult[$catUrl]["category_info"] = [
                             "name" => (string) $item->mainCatName,
                             "slug" => (string) $catUrl,
@@ -115,7 +115,7 @@ class Catalog extends ResourceController
                 foreach ($arrDbResult as $key => $item) {
                     $arrResult[] = [
                         "name" => (string) $item->name,
-                        "slug" => (string) aloparca::validUrl($item->name),
+                        "slug" => (string) aloparca::asValidURL($item->name),
                     ];
                 }
             }
@@ -136,8 +136,8 @@ class Catalog extends ResourceController
             $arrDbResult = $this->model->getOilCategories();
             if ($arrDbResult) {
                 foreach ($arrDbResult as $key => $item) {
-                    $catUrl = aloparca::validUrl($item->mainCatName);
-                    $subcatUrl = aloparca::validUrl($item->subCatName);
+                    $catUrl = aloparca::asValidURL($item->mainCatName);
+                    $subcatUrl = aloparca::asValidURL($item->subCatName);
                     $arrResult[$item->mainCatID]["category_info"] = [
                         "id" => (int) $item->mainCatID,
                         "name" => (string) $item->mainCatName,
@@ -169,7 +169,7 @@ class Catalog extends ResourceController
                         $campaignName = "{$item->campain_name} {$item->campain_type} Kampanyası";
                         $arrResult[] = [
                             "name" => (string) ucwords(strtolower($campaignName)),
-                            "slug" => (string) aloparca::validUrl(
+                            "slug" => (string) aloparca::asValidURL(
                                 "{$item->campain_name}_{$item->campain_type}"
                             ),
                         ];
@@ -196,8 +196,8 @@ class Catalog extends ResourceController
                     $arrResult[] = [
                         "name" => (string) ucwords(strtolower($item->category_name)),
                         "slug" =>
-                            (string) aloparca::validUrl($brandName) .
-                            aloparca::validUrl($item->category_name),
+                            (string) aloparca::asValidURL($brandName) .
+                            aloparca::asValidURL($item->category_name),
                     ];
                 }
             }

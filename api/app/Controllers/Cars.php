@@ -52,7 +52,7 @@ class Cars extends ResourceController
                 foreach ($arrBrands as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
+                        "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
@@ -74,8 +74,8 @@ class Cars extends ResourceController
                 foreach ($arrModels as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
                         "featured" => (int) $item->futured,
+                        "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
@@ -98,7 +98,7 @@ class Cars extends ResourceController
                 foreach ($arrBodies as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
+                        "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
@@ -133,7 +133,7 @@ class Cars extends ResourceController
                 foreach ($arrEngines as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
+                        "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }
@@ -155,7 +155,7 @@ class Cars extends ResourceController
                 foreach ($arrKw as $key => $item) {
                     $arrResult[] = [
                         "name" => $item->name,
-                        "slug" => aloparca::validUrl($item->name, "_"),
+                        "slug" => aloparca::asValidURL($item->name),
                     ];
                 }
             }

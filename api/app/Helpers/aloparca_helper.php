@@ -2,27 +2,34 @@
 use App\Models\ProductsModel;
 class aloparca
 {
-    public static function validUrl($urlStr, string $divider = "-")
+    public static function slugify(string $s, string $replacementCharacter = "_"): string
     {
-        $arrUrl = explode("/", $urlStr);
-        $returnStr = "";
-        foreach ($arrUrl as $key => $text) {
-            if ($text != "") {
-                $text = preg_replace("~[^\pL\d]+~u", $divider, $text);
-                $text = iconv("utf-8", "us-ascii//TRANSLIT", $text);
-                $text = preg_replace("~[^-\w]+~", "", $text);
-                $text = trim($text, $divider);
-                $text = preg_replace("~-+~", $divider, $text);
-                $text = strtolower($text);
-                $returnStr .= "/" . $text;
+        $s = preg_replace("~[^\pL\d]+~u", $replacementCharacter, $s);
+        $s = iconv("utf-8", "us-ascii//TRANSLIT", $s);
+        $s = preg_replace("~[^-\w]+~", "", $s);
+        $s = trim($s, $replacementCharacter);
+        $s = preg_replace("~-+~", $replacementCharacter, $s);
+        $s = strtolower($s);
+
+        return $s;
+    }
+
+    public static function asValidURL(string $name, string $replacementCharacter = "_")
+    {
+        $components = explode("/", $name);
+        $output = "";
+
+        foreach ($components as $component) {
+            if ($component !== "") {
+               $output .= '/' . slugify($component, $replacementCharacter);
             }
         }
 
-        if ($returnStr == "") {
+        if ($output === "") {
             return "n-a";
         }
 
-        return $returnStr;
+        return $output;
     }
 
     public static function calculateInstallment($price)
@@ -124,10 +131,10 @@ class aloparca
             (strlen($prod->alternative_name) > 2 ? $prod->alternative_name : $prod->name);
         $brandName = $prod->part_brand_name ? $prod->part_brand_name : "Diğer";
         $productSlug =
-            aloparca::validUrl($brandName) .
-            aloparca::validUrl($name) .
-            aloparca::validUrl(str_replace("/", ".", $prod->stock_code)) .
-            aloparca::validUrl($prod->product_no);
+            aloparca::asValidURL($brandName) .
+            aloparca::asValidURL($name) .
+            aloparca::asValidURL(str_replace("/", ".", $prod->stock_code)) .
+            aloparca::asValidURL($prod->product_no);
         $compatibleVehicleStatus = $model->getcompatibleVehicleStatus($prod->id);
         $listPrice = $prod->list_price;
         if ((int) $prod->list_price < (int) $prod->sale_price) {
@@ -354,9 +361,9 @@ class aloparca
             $arrRet[0]["category_slug"] = "/otoaksesuar";
             $arrRet[0]["name"] = "Aksesuar";
             $arrRet[0]["slug"] = "/otoaksesuar";
-            $arrRet[1]["category_slug"] = aloparca::validUrl($prod->accessory_category);
+            $arrRet[1]["category_slug"] = aloparca::asValidURL($prod->accessory_category);
             $arrRet[1]["name"] = $prod->accessory_category;
-            $arrRet[1]["slug"] = "/otoaksesuar" . aloparca::validUrl($prod->accessory_category);
+            $arrRet[1]["slug"] = "/otoaksesuar" . aloparca::asValidURL($prod->accessory_category);
             $arrRet[2]["name"] = $prod->name;
             $arrRet[2]["slug"] = "/yedek-parca" . $productSlug;
             return $arrRet;
@@ -376,7 +383,7 @@ class aloparca
                 "/madeni-yaglar/motor-yaglari/" .
                 $oil->mainCatID .
                 "/altkat" .
-                aloparca::validUrl($oil->subCatName);
+                aloparca::asValidURL($oil->subCatName);
             $arrRet[3]["name"] = $prod->name;
             $arrRet[3]["slug"] = "/yedek-parca" . $productSlug;
             return $arrRet;
@@ -387,18 +394,18 @@ class aloparca
         if ($breadCrumb) {
             $breadCrumb = $breadCrumb[0];
             $arrRet[0]["name"] =
-                "/oto-yedek-parca/ustkategori" . aloparca::validUrl($breadCrumb->mainCategory);
+                "/oto-yedek-parca/ustkategori" . aloparca::asValidURL($breadCrumb->mainCategory);
             $arrRet[0]["slug"] = $breadCrumb->mainCategory;
             $arrRet[1]["name"] =
                 "/oto-yedek-parca/ustkategori" .
-                aloparca::validUrl($breadCrumb->mainCategory) .
+                aloparca::asValidURL($breadCrumb->mainCategory) .
                 "/altkategori" .
-                aloparca::validUrl($breadCrumb->subCategory);
+                aloparca::asValidURL($breadCrumb->subCategory);
             $arrRet[1]["slug"] = $breadCrumb->subCategory;
             $arrRet[2]["name"] =
                 "yedek-parca" .
-                aloparca::validUrl($breadCrumb->partBrand) .
-                aloparca::validUrl($breadCrumb->partName);
+                aloparca::asValidURL($breadCrumb->partBrand) .
+                aloparca::asValidURL($breadCrumb->partName);
             $arrRet[2]["slug"] = $breadCrumb->supplierCode;
             return $arrRet;
         }
@@ -423,9 +430,8 @@ class aloparca
     public static function inappropriateCharCheck($string)
     {
         if (strpos($string, " ") || (preg_match("/[A-Z]/", $string) && $string != "/")) {
-            return aloparca::validUrl($string, "-");
+            return aloparca::asValidURL($string, "-");
         }
         return false;
     }
 }
-?>
